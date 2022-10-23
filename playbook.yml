@@ -1,5 +1,20 @@
 ---
-- hosts: all
-  roles:
-    - myrole 
+- name: Install Postfix server 
+  hosts: all
+  become: yes
+  gather_facts: yes
+  vars:
+    domain_name: "{{ ansible_fqdn }}"
 
+  roles:
+    - role: letsencrypt-config
+    - role: ansible-role-postfix 
+      postfix_myhostname: "{{ domain_name }}"
+      postfix_mydomain: "{{ domain_name }}"
+      postfix_myorigin: "{{ domain_name }}"
+      postfix_append_dot_mydomain: yes
+      postfix_mynetworks:
+        - 127.0.0.0/8
+      postfix_smtpd_tls_cert_file: "/etc/letsencrypt/certs/chain_{{ domain_name }}.crt" 
+      postfix_smtpd_tls_key_file: "/etc/letsencrypt/keys/{{ domain_name }}.key"
+      postfix_smtpd_tls_loglevel: 1

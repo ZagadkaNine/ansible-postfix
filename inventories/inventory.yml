@@ -1,14 +1,3 @@
 all:
   hosts:
-    mail.example.com:
-  children:
-    webservers:
-      hosts:
-        foo.example.com:
-        bar.example.com:
-    dbservers:
-      hosts:
-        one.example.com:
-        two.example.com:
-        three.example.com:
-
+    web1.dynamic-foundries.com:
